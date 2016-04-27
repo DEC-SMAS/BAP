@@ -1,0 +1,17 @@
+Package: BAP
+Type: Package
+Title: NYSDEC Benthic Macroinvertebrate IBI
+Version: 0.1
+Date: 2016-02-28
+Author: Zachary M. Smith
+Maintainer: Zachary M. Smith <zsmith@icprb.org>
+Description: Functions for calculating and scoring benthic macroinverterbate
+    community metrics.
+License: What license is it under?
+LazyData: TRUE
+Suggests:
+    reshape2,
+    vegan
+RoxygenNote: 5.0.1
+Imports: vegan,
+    reshape2
