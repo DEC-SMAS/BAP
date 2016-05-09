@@ -13,8 +13,8 @@ score_rich_ponar <- function(metrics.df){
                      ifelse(m.value > 19, ((((m.value - 19) / 6.5) * 2.5) + 7.5),
                             ifelse(m.value > 14, ((((m.value - 14) / 5.5) * 2.5) + 5),
                                    ifelse(m.value > 10, ((((m.value - 10) / 4.5) * 2.5) + 2.5),
-                                          ifelse(m.value >= 5, (((m.value - 5) / 5.5) * 2.5),
-                                                 ifelse(m.value < 5, 0, 100000))))))
+                                          ifelse(m.value >= 4, (((m.value - 5) / 5.5) * 2.5),
+                                                 ifelse(m.value < 4, 0, 100000))))))
   return(round(final.df, digits = 2))
 }
 
