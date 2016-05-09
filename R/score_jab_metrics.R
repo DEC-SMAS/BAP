@@ -32,7 +32,7 @@ score_ept_jab <- function(metrics.df){
   final.df <- ifelse(m.value > 10, 10,
                      ifelse(m.value > 5, (((m.value - 5) / 5) * 2.5) + 7.5,
                             ifelse(m.value > 3, (m.value - 3) + 5,
-                                   ifelse(m.value > 2, (m.value - 1) + 2.5,
+                                   ifelse(m.value > 1, (m.value - 1) + 2.5,
                                           ifelse(m.value > 0, 1.5,
                                                  ifelse(m.value == 0, 0, 100000))))))
   return(round(final.df, digits = 2))
@@ -49,9 +49,9 @@ score_ept_jab <- function(metrics.df){
 
 score_hbi_jab <- function(metrics.df){
   m.value <- metrics.df$HBI
-  final.df <- ifelse(m.value > 8.5, 2.5 - (((m.value - 8.5) / 1.5) * 2.5),
-                     ifelse(m.value > 7, 5 - (((m.value - 7) / 1.5) * 2.5),
-                            ifelse(m.value > 5.5, 7.5 - (((m.value - 5.5) / 1.5) * 2.5),
+  final.df <- ifelse(m.value >= 8.5, 2.5 - (((m.value - 8.5) / 1.5) * 2.5),
+                     ifelse(m.value >= 7, 5 - (((m.value - 7) / 1.5) * 2.5),
+                            ifelse(m.value >= 5.5, 7.5 - (((m.value - 5.5) / 1.5) * 2.5),
                                    ifelse(m.value >= 4, 10 - ((m.value - 4) / 1.5) *2.5,
                                           ifelse(m.value < 4, 10, 100000)))))
   return(round(final.df, digits = 2))

@@ -13,8 +13,8 @@ score_rich_ponar <- function(metrics.df){
                      ifelse(m.value > 19, ((((m.value - 19) / 6.5) * 2.5) + 7.5),
                             ifelse(m.value > 14, ((((m.value - 14) / 5.5) * 2.5) + 5),
                                    ifelse(m.value > 10, ((((m.value - 10) / 4.5) * 2.5) + 2.5),
-                                          ifelse(m.value > 5, (((m.value - 5) / 5.5) * 2.5),
-                                                 ifelse(m.value <= 5, 0, 100000))))))
+                                          ifelse(m.value >= 5, (((m.value - 5) / 5.5) * 2.5),
+                                                 ifelse(m.value < 5, 0, 100000))))))
   return(round(final.df, digits = 2))
 }
 
@@ -29,9 +29,9 @@ score_rich_ponar <- function(metrics.df){
 
 score_hbi_ponar <- function(metrics.df){
   m.value <- metrics.df$HBI
-  final.df <- ifelse(m.value > 9, 2.5 - ((m.value - 9) * 2.5),
-                     ifelse(m.value > 8, 5 - ((m.value - 8) * 2.5),
-                            ifelse(m.value > 7, 7.5 - ((m.value - 7) * 2.5),
+  final.df <- ifelse(m.value >= 9, 2.5 - ((m.value - 9) * 2.5),
+                     ifelse(m.value >= 8, 5 - ((m.value - 8) * 2.5),
+                            ifelse(m.value >= 7, 7.5 - ((m.value - 7) * 2.5),
                                    ifelse(m.value >= 6, 10 - ((m.value - 6) * 2.5),
                                           ifelse(m.value < 6, 10, 100000)))))
   return(round(final.df, digits = 2))
@@ -69,10 +69,10 @@ score_pma_ponar <- function(metrics.df){
 score_pct_dom3_ponar <- function(metrics.df){
   m.value <- metrics.df$PCT_DOM3
   final.df <- ifelse(m.value == 100, 0,
-                     ifelse(m.value > 90, 2.5 - (((m.value - 90) / 10) *2.5),
-                            ifelse(m.value > 75,  5 - (((m.value - 75) / 15) *2.5),
-                                   ifelse(m.value > 60,  7.5 - (((m.value - 60) / 15) *2.5),
-                                          ifelse(m.value > 45, 10 - (((m.value - 45) / 15) *2.5),
+                     ifelse(m.value >= 90, 2.5 - (((m.value - 90) / 10) *2.5),
+                            ifelse(m.value >= 75,  5 - (((m.value - 75) / 15) *2.5),
+                                   ifelse(m.value >= 60,  7.5 - (((m.value - 60) / 15) *2.5),
+                                          ifelse(m.value >= 45, 10 - (((m.value - 45) / 15) *2.5),
                                                  ifelse(m.value <= 45, 10, 100000))))))
   return(round(final.df, digits = 2))
 }

@@ -13,8 +13,8 @@ score_rich_mp_nav_water <- function(metrics.df){
                      ifelse(m.value > 21, ((((m.value - 21) / 5) * 2.5) + 7.5),
                             ifelse(m.value > 16, ((((m.value - 16) / 5.5) * 2.5) + 5),
                                    ifelse(m.value > 11, ((((m.value - 11) / 5.5) * 2.5) + 2.5),
-                                          ifelse(m.value > 8, (((m.value - 8) / 3.5) * 2.5),
-                                                 ifelse(m.value <= 8, 0, 100000))))))
+                                          ifelse(m.value > 7, (((m.value - 8) / 3.5) * 2.5),
+                                                 ifelse(m.value <= 7, 0, 100000))))))
   return(round(final.df, digits = 2))
 }
 
@@ -49,9 +49,9 @@ score_ept_mp_nav_water <- function(metrics.df){
 
 score_hbi_mp_nav_water <- function(metrics.df){
   m.value <- metrics.df$HBI
-  final.df <- ifelse(m.value > 9, 2.5 - ((m.value - 9)  * 2.5),
-                     ifelse(m.value > 8, 5 - ((m.value - 8) * 2.5),
-                            ifelse(m.value > 7, 7.5 - ((m.value - 7) * 2.5),
+  final.df <- ifelse(m.value >= 9, 2.5 - ((m.value - 9)  * 2.5),
+                     ifelse(m.value >= 8, 5 - ((m.value - 8) * 2.5),
+                            ifelse(m.value >= 7, 7.5 - ((m.value - 7) * 2.5),
                                    ifelse(m.value >= 6, 10 - ((m.value - 6) * 2.5),
                                           ifelse(m.value < 6, 10, 100000)))))
   return(round(final.df, digits = 2))
