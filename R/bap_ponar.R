@@ -1,30 +1,30 @@
 #==============================================================================
 #'BAP Ponar
 #'
-#'@param Long = Taxonomic count data in a long data format.
+#'@param long = Taxonomic count data in a long data format.
 #'@return Calculate and score the metrics in the BAP created for ponars.
 #'@export
 
-bap_ponar <- function(Long){
+bap_ponar <- function(long){
 
-  final_id.df <- wide(Long, "SAMPLE_GENUS_SPECIES")
+  final_id.df <- wide(long, "SAMPLE_GENUS_SPECIES")
   # Create a new data frame to store metrics
-  metrics <- data.frame(unique(Long[, 1:5]))
+  metrics <- data.frame(unique(long[, 1:5]))
   #==============================================================================
   # Species Richness
   metrics$RICHNESS <- vegan::specnumber(final_id.df[, 6:ncol(final_id.df)])
   metrics$RICH_SCORE <- score_rich_ponar(metrics)
   #==============================================================================
   # Hilsenhoff's Biotic Index (HBI)
-  metrics$HBI <- tol_index(Long, Index = "TOLERANCE", Level = "SAMPLE_GENUS_SPECIES")
+  metrics$HBI <- tol_index(long, Index = "TOLERANCE", Level = "SAMPLE_GENUS_SPECIES")
   metrics$HBI_SCORE <- score_hbi_ponar(metrics)
   #==============================================================================
   # Percent Model Affinity (PMA)
-  metrics$PMA <- pma(Long)
+  metrics$PMA <- pma_ponar(long)
   metrics$PMA_SCORE <- score_pma_ponar(metrics)
   #==============================================================================
   # Shannon-Wiener Species Diversity
-  metrics$SHANNON <- vegan::diversity(final_id.df[, 6:ncol(final_id.df)])
+  metrics$SHANNON <- vegan::diversity(final_id.df[, 6:ncol(final_id.df)], base = 2)
   metrics$SHANNON_SCORE <- score_shannon_ponar(metrics)
   #==============================================================================
   # DOM-3

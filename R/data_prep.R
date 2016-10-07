@@ -1,55 +1,70 @@
 #==============================================================================
-#'Prepare the Data
+#'Prepare the Taxonomic Count Data
 #'
-#'@param Taxa.df = A data frame containing raw taxonomic counts.
+#'@param taxa.df = A data frame containing raw taxonomic counts.
 #'@return Prepare taxonomic data for metric calculations.
 #'@export
 
-data_prep <- function(Taxa.df){
-  Taxa.df$SAMPLE_NUMBER[is.na(Taxa.df$SAMPLE_NUMBER)] <- 1
-  Taxa.df$STATION_ID <- as.numeric(Taxa.df$STATION_ID)
-  Taxa.df$EVENT_ID <- with(Taxa.df, paste0(STATION_ID, LOCATION, BASIN, DATE))
-  final.df <- Taxa.df[, c(length(Taxa.df), 1:length(Taxa.df) - 1)]
+taxa_prep2 <- function(taxa.df){
+  taxa.df$SAMPLE_NUMBER[is.na(taxa.df$SAMPLE_NUMBER)] <- 1
+  taxa.df$STATION_ID <- as.numeric(taxa.df$STATION_ID)
+  taxa.df$EVENT_ID <- with(taxa.df, paste0(STATION_ID, LOCATION, BASIN,
+                                           DATE, SAMPLE_NUMBER, sep = "_"))
+  #taxa.df$FINAL_ID 
+  final.df <- taxa.df[, c(length(taxa.df), 1:length(taxa.df) - 1)]
   taxa.levels <- c("PHYLUM", "CLASS", "ORDER", "FAMILY", "SUBFAMILY",
-                   "GENUS_SPECIES", "SAMPLE_GENUS_SPECIES")
+                   "GENUS_SPECIES", "FINAL_ID")
   final.df[, taxa.levels] <- apply(final.df[, taxa.levels], 2, as.character)
   final.df[, taxa.levels] <- apply(final.df[, taxa.levels], 2, function(x){
     x <- sub("^$", "UNDETERMINED", x)
   })
-  final.df$GENUS <- final.df$GENUS_SPECIES
-  # Remove any UNDETERMINED
-  final.df$GENUS <- gsub("UNDETERMINED ","", final.df$GENUS)
-  # Remove any text contained within parentheses
-  final.df$GENUS <- gsub("\\([^\\)]+\\)","", final.df$GENUS)
-  # Remove NR.
-  final.df$GENUS <- gsub("\ NR\\.","", final.df$GENUS)
-  # Remove GR.
-  final.df$GENUS <- gsub("\ GR\\.","", final.df$GENUS)
-  # Remove ?
-  final.df$GENUS <- gsub("\\?","", final.df$GENUS)
-  final.df$GENUS <- ifelse(grepl(" ",  final.df$GENUS),
-                           gsub( " .*$", "", final.df$GENUS_SPECIES),
-                           final.df$GENUS)
+ 
+}
+#==============================================================================
+#'Prepare Master Taxa List
+#'
+#'@param taxa.df = A data frame containing raw taxonomic counts.
+#'@return Prepare taxonomic data for metric calculations.
+#'@export
 
+prep_master_taxa <- function(master){
+  master$GENUS <- master$GENUS_SPECIES
+  # Remove any UNDETERMINED
+  master$GENUS <- gsub("UNDETERMINED ","", master$GENUS)
+  # Remove any text contained within parentheses
+  master$GENUS <- gsub("\\([^\\)]+\\)","", master$GENUS)
+  # Remove NR.
+  master$GENUS <- gsub("\ NR\\.","", master$GENUS)
+  # Remove GR.
+  master$GENUS <- gsub("\ GR\\.","", master$GENUS)
+  # Remove ?
+  master$GENUS <- gsub("\\?","", master$GENUS)
+  master$GENUS <- ifelse(grepl(" ",  master$GENUS),
+                           gsub( " .*$", "", master$GENUS_SPECIES),
+                           master$GENUS)
+  
   # Remove all genera, groups, undetermineds, complexes, and uncertainties
-  final.df$SPECIES <- sapply(final.df$GENUS_SPECIES, function(x){
+  master$SPECIES <- sapply(master$GENUS_SPECIES, function(x){
     remove <- c("SP\\.", "SPP\\.", "CF\\.", "UNDET\\.", "UNDETERMINED", "/")
     ifelse(grepl(paste(remove, collapse="|"), x), "", paste(x))
   })
   # Remove any text contained within parentheses
-  final.df$SPECIES <- gsub("\\([^\\)]+\\)","", final.df$SPECIES)
+  master$SPECIES <- gsub("\\([^\\)]+\\)","", master$SPECIES)
   # Remove NR.
-  final.df$SPECIES <- gsub("\ NR\\.","", final.df$SPECIES)
+  master$SPECIES <- gsub("\ NR\\.","", master$SPECIES)
   # Remove GR.
-  final.df$SPECIES <- gsub("\ GR\\.","", final.df$SPECIES)
+  master$SPECIES <- gsub("\ GR\\.","", master$SPECIES)
   # Remove ?
-  final.df$SPECIES <- gsub("\\?","", final.df$SPECIES)
+  master$SPECIES <- gsub("\\?","", master$SPECIES)
   # Replace the space between genus and species with "_"
-  final.df$SPECIES <- gsub(" ","_", final.df$SPECIES)
+  master$SPECIES <- gsub(" ","_", master$SPECIES)
   # Replace the blanks with "UNDETERMINED"
-  final.df$SPECIES <- sub("^$", "UNDETERMINED", final.df$SPECIES)
-  return(final.df)
+  master$SPECIES <- sub("^$", "UNDETERMINED", master$SPECIES)
+  
+  return(master)
 }
+
+
 
 #==============================================================================
 #'Create an Event_ID
@@ -58,11 +73,16 @@ data_prep <- function(Taxa.df){
 #'@return Create a unique event identification (EVENT_ID).
 #'@export
 
-event_prep <- function(Check.df){
-  Check.df$SAMPLE_NUMBER[is.na(Check.df$SAMPLE_NUMBER)] <- 1
-  Check.df$STATION_ID <- as.numeric(Check.df$STATION_ID)
-  Check.df$EVENT_ID <- with(Check.df, paste0(STATION_ID, LOCATION, BASIN, DATE))
-  final.df <- Check.df[, c(length(Check.df), 1:length(Check.df) - 1)]
+event_prep <- function(data.df){
+  data.df$SAMPLE_NUMBER <- ifelse(is.na(data.df$SAMPLE_NUMBER), 1,
+                                   as.numeric(data.df$SAMPLE_NUMBER))
+  data.df$STATION_ID <- as.character(data.df$STATION_ID)
+  event.cols <- c("STATION_ID", "LOCATION", "BASIN", "DATE", "SAMPLE_NUMBER")
+  data.df$EVENT_ID <- apply(data.df[, event.cols], 1, function(x){
+    paste0(x, collapse = "_")
+  })
+
+  final.df <- data.df[, c(length(data.df), 1:length(data.df) - 1)]
   return(final.df)
 }
 
@@ -70,18 +90,18 @@ event_prep <- function(Check.df){
 #'Vector of taxa richness for a specific list of taxa
 #'
 #'@param NameList = uninque list of taxa.
-#'@param Taxa.df = Wide data frame format of taxonomic counts.
+#'@param taxa.df = Wide data frame format of taxonomic counts.
 #'@return A vector of taxa richness for a specific list of taxa representing
 #'each sampling event. NameList from the wide data frame of taxa
 #' (i.e. Family level or Genus level)
 #'@export
 
-group_rich <- function(NameList, Taxa.df){
+group_rich <- function(NameList, taxa.df){
   taxa.list <- unlist(NameList)
   #taxa.list[which(c(1, diff(taxa.list)) != 0)]
-  idx <- match(taxa.list, names(Taxa.df))
+  idx <- match(taxa.list, names(taxa.df))
   idx <- idx[! is.na(idx)]
-  taxa_list.df <- data.frame(Taxa.df[, idx])
+  taxa_list.df <- data.frame(taxa.df[, idx])
   taxa_list.df[is.na(taxa_list.df)] <- 0 #NA = zero
   final_taxa.df <- vegan::specnumber(taxa_list.df)
   return(final_taxa.df)
@@ -117,6 +137,75 @@ wide <- function (Long, Level) {
   return(wide.df)
 }
 
+#==============================================================================
+#==============================================================================
+#'Prepare the Taxonomic Count Data
+#'
+#'@param taxa.df = A data frame containing raw taxonomic counts.
+#'@return Prepare taxonomic data for metric calculations.
+#'@export
+
+taxa_prep <- function(taxa.df){
+  taxa.levels <- c("PHYLUM", "CLASS", "ORDER", "FAMILY", "SUBFAMILY",
+                   "GENUS_SPECIES", "SAMPLE_GENUS_SPECIES")
+  taxa.df[, taxa.levels] <- apply(taxa.df[, taxa.levels], 2, as.character)
+  taxa.df[, taxa.levels] <- apply(taxa.df[, taxa.levels], 2, function(x){
+    x <- sub("^$", "UNDETERMINED", x)
+  })
+  taxa.df$GENUS <- taxa.df$GENUS_SPECIES
+  # Remove any UNDETERMINED
+  taxa.df$GENUS <- gsub("UNDETERMINED ","", taxa.df$GENUS)
+  # Remove any text contained within parentheses
+  taxa.df$GENUS <- gsub("\\([^\\)]+\\)","", taxa.df$GENUS)
+  # Remove NR.
+  taxa.df$GENUS <- gsub("\ NR\\.","", taxa.df$GENUS)
+  # Remove GR.
+  taxa.df$GENUS <- gsub("\ GR\\.","", taxa.df$GENUS)
+  # Remove ?
+  taxa.df$GENUS <- gsub("\\?","", taxa.df$GENUS)
+  taxa.df$GENUS <- ifelse(grepl(" ",  taxa.df$GENUS),
+                           gsub( " .*$", "", taxa.df$GENUS_SPECIES),
+                           taxa.df$GENUS)
+  
+  # Remove all genera, groups, undetermineds, complexes, and uncertainties
+  taxa.df$SPECIES <- sapply(taxa.df$GENUS_SPECIES, function(x){
+    remove <- c("SP\\.", "SPP\\.", "CF\\.", "UNDET\\.", "UNDETERMINED", "/")
+    ifelse(grepl(paste(remove, collapse="|"), x), "", paste(x))
+  })
+  # Remove any text contained within parentheses
+  taxa.df$SPECIES <- gsub("\\([^\\)]+\\)","", taxa.df$SPECIES)
+  # Remove NR.
+  taxa.df$SPECIES <- gsub("\ NR\\.","", taxa.df$SPECIES)
+  # Remove GR.
+  taxa.df$SPECIES <- gsub("\ GR\\.","", taxa.df$SPECIES)
+  # Remove ?
+  taxa.df$SPECIES <- gsub("\\?","", taxa.df$SPECIES)
+  # Replace the space between genus and species with "_"
+  taxa.df$SPECIES <- gsub(" ","_", taxa.df$SPECIES)
+  # Replace the blanks with "UNDETERMINED"
+  taxa.df$SPECIES <- sub("^$", "UNDETERMINED", taxa.df$SPECIES)
+  
+  taxa <- c("PHYLUM", "CLASS", "ORDER", 
+            "FAMILY", "SUBFAMILY",
+            "GENUS", "SPECIES")
+  
+  taxa.df[taxa.df == "" | taxa.df == "UNDETERMINED"]  <- NA
+  taxa.df[, taxa] <- data.frame(t(apply(taxa.df[, taxa], 1, zoo::na.locf)))
+  taxa.df$FINAL_ID <- taxa.df$SPECIES
+  return(taxa.df)
+}
+#==============================================================================
+#'Prepare the Data
+#'
+#'@param taxa.df = A data frame containing raw taxonomic counts.
+#'@return Prepare taxonomic data for metric calculations.
+#'@export
+
+data_prep <- function(taxa.df){
+  prep.df <- event_prep(taxa.df)
+  final.df <- taxa_prep(prep.df)
+  return(final.df)
+}
 
 
 

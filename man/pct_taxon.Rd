@@ -4,7 +4,7 @@
 \alias{pct_taxon}
 \title{Percentage of a Taxon}
 \usage{
-pct_taxon(Taxon, Level, Long)
+pct_taxon(Taxon, Level, long)
 }
 \arguments{
 \item{Taxon}{= The taxon of interest in quotations and in all caps
@@ -12,7 +12,7 @@ pct_taxon(Taxon, Level, Long)
 
 \item{Level}{= The taxonomic level (rank) the taxon of intrest can be found.}
 
-\item{Long}{= Taxonomic count data in a long data format.}
+\item{long}{= Taxonomic count data in a long data format.}
 }
 \value{
 Calculate the percentage of a particular taxon.

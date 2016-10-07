@@ -4,10 +4,10 @@
 \alias{bap_ponar}
 \title{BAP Ponar}
 \usage{
-bap_ponar(Long)
+bap_ponar(long)
 }
 \arguments{
-\item{Long}{= Taxonomic count data in a long data format.}
+\item{long}{= Taxonomic count data in a long data format.}
 }
 \value{
 Calculate and score the metrics in the BAP created for ponars.

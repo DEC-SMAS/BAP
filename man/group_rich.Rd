@@ -4,12 +4,12 @@
 \alias{group_rich}
 \title{Vector of taxa richness for a specific list of taxa}
 \usage{
-group_rich(NameList, Taxa.df)
+group_rich(NameList, taxa.df)
 }
 \arguments{
 \item{NameList}{= uninque list of taxa.}
 
-\item{Taxa.df}{= Wide data frame format of taxonomic counts.}
+\item{taxa.df}{= Wide data frame format of taxonomic counts.}
 }
 \value{
 A vector of taxa richness for a specific list of taxa representing

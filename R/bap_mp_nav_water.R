@@ -25,7 +25,7 @@ bap_mp_nav_waters <- function(Long){
   metrics$HBI_SCORE <- score_hbi_mp_nav_water(metrics)
   #==============================================================================
   # Shannon-Wiener Species Diversity
-  metrics$SHANNON <- vegan::diversity(final_id.df[, 6:ncol(final_id.df)])
+  metrics$SHANNON <- vegan::diversity(final_id.df[, 6:ncol(final_id.df)], base = 2)
   metrics$SHANNON_SCORE <- score_shannon_mp_nav_water(metrics)
   #==============================================================================
   # Find the mean score of all metrics for each sample

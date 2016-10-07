@@ -4,7 +4,7 @@
 \alias{event_prep}
 \title{Create an Event_ID}
 \usage{
-event_prep(Check.df)
+event_prep(data.df)
 }
 \arguments{
 \item{Check.df}{=}
