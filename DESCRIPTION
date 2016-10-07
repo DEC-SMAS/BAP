@@ -14,7 +14,8 @@ Suggests:
     vegan
 RoxygenNote: 5.0.1
 Imports: vegan,
-    reshape2
+    reshape2,
+    zoo
 Depends: reshape2,
     vegan,
     zoo

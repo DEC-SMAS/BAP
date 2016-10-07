@@ -8,20 +8,20 @@
 
 bap_mp_nav_waters <- function(Long){
 
-  final_id.df <- wide(Long, "SAMPLE_GENUS_SPECIES")
+  final_id.df <- wide(Long, "FINAL_ID")
   # Create a new data frame to store metrics
-  metrics <- data.frame(unique(Long[, 1:5]))
+  metrics <- data.frame(unique(final_id.df[, 1:5]))
   #==============================================================================
   # Species Richness
   metrics$RICHNESS <- vegan::specnumber(final_id.df[, 6:ncol(final_id.df)])
   metrics$RICH_SCORE <- score_rich_mp_nav_water(metrics)
   #==============================================================================
   # EPT Richness
-  metrics$EPT_RICH <- ept_rich(Long, "SAMPLE_GENUS_SPECIES")
+  metrics$EPT_RICH <- ept_rich(Long, "FINAL_ID")
   metrics$EPT_SCORE <- score_ept_mp_nav_water(metrics)
   #==============================================================================
   # Hilsenhoff's Biotic Index (HBI)
-  metrics$HBI <- tol_index(Long, Index = "TOLERANCE", Level = "SAMPLE_GENUS_SPECIES")
+  metrics$HBI <- tol_index(Long, Index = "TOLERANCE", Level = "FINAL_ID")
   metrics$HBI_SCORE <- score_hbi_mp_nav_water(metrics)
   #==============================================================================
   # Shannon-Wiener Species Diversity

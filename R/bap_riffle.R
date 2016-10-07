@@ -7,20 +7,20 @@
 
 bap_riffle <- function(Long){
 
-  final_id.df <- wide(Long, "SAMPLE_GENUS_SPECIES")
+  final_id.df <- wide(Long, "FINAL_ID")
   # Create a new data frame to store metrics
-  metrics <- data.frame(unique(Long[, 1:5]))
+  metrics <- data.frame(unique(final_id.df[, 1:5]))
   #==============================================================================
   # Species Richness
   metrics$RICHNESS <- vegan::specnumber(final_id.df[, 6:ncol(final_id.df)])
   metrics$RICH_SCORE <- score_rich_riffle(metrics)
   #==============================================================================
   # EPT Richness
-  metrics$EPT_RICH <- ept_rich(Long, "SAMPLE_GENUS_SPECIES")
+  metrics$EPT_RICH <- ept_rich(Long, "FINAL_ID")
   metrics$EPT_SCORE <- score_ept_riffle(metrics)
   #==============================================================================
   # Hilsenhoff's Biotic Index (HBI)
-  metrics$HBI <- tol_index(Long, Index = "TOLERANCE", Level = "SAMPLE_GENUS_SPECIES")
+  metrics$HBI <- tol_index(Long, Index = "TOLERANCE", Level = "FINAL_ID")
   metrics$HBI_SCORE <- score_hbi_riffle(metrics)
   #==============================================================================
   # Percent Model Affinity (PMA)
@@ -29,7 +29,7 @@ bap_riffle <- function(Long){
   #==============================================================================
   # Nutrient Biotic Index (NBI)
   metrics$NBI_P <- tol_index(Long, Index = "NBI_P_TOLERANCE",
-                             Level = "SAMPLE_GENUS_SPECIES")
+                             Level = "FINAL_ID")
 
   metrics$NBI_P_SCORE <- score_nbip_riffle(metrics)
   #==============================================================================

@@ -20,51 +20,6 @@ taxa_prep2 <- function(taxa.df){
   })
  
 }
-#==============================================================================
-#'Prepare Master Taxa List
-#'
-#'@param taxa.df = A data frame containing raw taxonomic counts.
-#'@return Prepare taxonomic data for metric calculations.
-#'@export
-
-prep_master_taxa <- function(master){
-  master$GENUS <- master$GENUS_SPECIES
-  # Remove any UNDETERMINED
-  master$GENUS <- gsub("UNDETERMINED ","", master$GENUS)
-  # Remove any text contained within parentheses
-  master$GENUS <- gsub("\\([^\\)]+\\)","", master$GENUS)
-  # Remove NR.
-  master$GENUS <- gsub("\ NR\\.","", master$GENUS)
-  # Remove GR.
-  master$GENUS <- gsub("\ GR\\.","", master$GENUS)
-  # Remove ?
-  master$GENUS <- gsub("\\?","", master$GENUS)
-  master$GENUS <- ifelse(grepl(" ",  master$GENUS),
-                           gsub( " .*$", "", master$GENUS_SPECIES),
-                           master$GENUS)
-  
-  # Remove all genera, groups, undetermineds, complexes, and uncertainties
-  master$SPECIES <- sapply(master$GENUS_SPECIES, function(x){
-    remove <- c("SP\\.", "SPP\\.", "CF\\.", "UNDET\\.", "UNDETERMINED", "/")
-    ifelse(grepl(paste(remove, collapse="|"), x), "", paste(x))
-  })
-  # Remove any text contained within parentheses
-  master$SPECIES <- gsub("\\([^\\)]+\\)","", master$SPECIES)
-  # Remove NR.
-  master$SPECIES <- gsub("\ NR\\.","", master$SPECIES)
-  # Remove GR.
-  master$SPECIES <- gsub("\ GR\\.","", master$SPECIES)
-  # Remove ?
-  master$SPECIES <- gsub("\\?","", master$SPECIES)
-  # Replace the space between genus and species with "_"
-  master$SPECIES <- gsub(" ","_", master$SPECIES)
-  # Replace the blanks with "UNDETERMINED"
-  master$SPECIES <- sub("^$", "UNDETERMINED", master$SPECIES)
-  
-  return(master)
-}
-
-
 
 #==============================================================================
 #'Create an Event_ID
@@ -74,6 +29,28 @@ prep_master_taxa <- function(master){
 #'@export
 
 event_prep <- function(data.df){
+  names(data.df) <- toupper(names(data.df))
+  if("REPLICATE" %in% names(data.df)){
+    names(data.df)[names(data.df) %in% "REPLICATE"] <- "SAMPLE_NUMBER"
+  }
+  #============================================================================
+  if("INDIV" %in% names(data.df)){
+    names(data.df)[names(data.df) %in% "INDIV"] <- "REPORTING_VALUE"
+  }
+  #============================================================================
+  if("GENSPECIES" %in% names(data.df)){
+    names(data.df)[names(data.df) %in% "GENSPECIES"] <- "FINAL_ID"
+  }
+  #============================================================================
+  if("STATION" %in% names(data.df)){
+    names(data.df)[names(data.df) %in% "STATION"] <- "STATION_ID"
+  }
+  #============================================================================
+  if("COLL_DATE" %in% names(data.df)){
+    names(data.df)[names(data.df) %in% "COLL_DATE"] <- "DATE"
+  }
+  #============================================================================
+  
   data.df$SAMPLE_NUMBER <- ifelse(is.na(data.df$SAMPLE_NUMBER), 1,
                                    as.numeric(data.df$SAMPLE_NUMBER))
   data.df$STATION_ID <- as.character(data.df$STATION_ID)
@@ -146,6 +123,19 @@ wide <- function (Long, Level) {
 #'@export
 
 taxa_prep <- function(taxa.df){
+
+  taxa.df$FINAL_ID <- toupper(gsub(" ","_", taxa.df$FINAL_ID))
+
+  return(taxa.df)
+}
+#==============================================================================
+#'Prepare the Taxonomic Count Data
+#'
+#'@param taxa.df = A data frame containing raw taxonomic counts.
+#'@return Prepare taxonomic data for metric calculations.
+#'@export
+
+taxa_prep3 <- function(taxa.df){
   taxa.levels <- c("PHYLUM", "CLASS", "ORDER", "FAMILY", "SUBFAMILY",
                    "GENUS_SPECIES", "SAMPLE_GENUS_SPECIES")
   taxa.df[, taxa.levels] <- apply(taxa.df[, taxa.levels], 2, as.character)
@@ -203,7 +193,10 @@ taxa_prep <- function(taxa.df){
 
 data_prep <- function(taxa.df){
   prep.df <- event_prep(taxa.df)
-  final.df <- taxa_prep(prep.df)
+  taxa.df <- taxa_prep(prep.df)
+  data("master")
+  final.df <- merge(taxa.df, master, by = "FINAL_ID", all.x = T)
+  final.df <- final.df[order(final.df$EVENT_ID), ]
   return(final.df)
 }
 

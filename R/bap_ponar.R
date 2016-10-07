@@ -7,16 +7,16 @@
 
 bap_ponar <- function(long){
 
-  final_id.df <- wide(long, "SAMPLE_GENUS_SPECIES")
+  final_id.df <- wide(long, "FINAL_ID")
   # Create a new data frame to store metrics
-  metrics <- data.frame(unique(long[, 1:5]))
+  metrics <- data.frame(unique(final_id.df[, 1:5]))
   #==============================================================================
   # Species Richness
   metrics$RICHNESS <- vegan::specnumber(final_id.df[, 6:ncol(final_id.df)])
   metrics$RICH_SCORE <- score_rich_ponar(metrics)
   #==============================================================================
   # Hilsenhoff's Biotic Index (HBI)
-  metrics$HBI <- tol_index(long, Index = "TOLERANCE", Level = "SAMPLE_GENUS_SPECIES")
+  metrics$HBI <- tol_index(long, Index = "TOLERANCE", Level = "FINAL_ID")
   metrics$HBI_SCORE <- score_hbi_ponar(metrics)
   #==============================================================================
   # Percent Model Affinity (PMA)
