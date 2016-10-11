@@ -7,8 +7,8 @@
 
 taxa_prep2 <- function(taxa.df){
   taxa.df$SAMPLE_NUMBER[is.na(taxa.df$SAMPLE_NUMBER)] <- 1
-  taxa.df$STATION_ID <- as.numeric(taxa.df$STATION_ID)
-  taxa.df$EVENT_ID <- with(taxa.df, paste0(STATION_ID, LOCATION, BASIN,
+  #taxa.df$RIVMILE <- as.numeric(taxa.df$RIVMILE)
+  taxa.df$EVENT_ID <- with(taxa.df, paste0(RIVMILE, LOCATION, BASIN,
                                            DATE, SAMPLE_NUMBER, sep = "_"))
   #taxa.df$FINAL_ID 
   final.df <- taxa.df[, c(length(taxa.df), 1:length(taxa.df) - 1)]
@@ -42,10 +42,6 @@ event_prep <- function(data.df){
     names(data.df)[names(data.df) %in% "GENSPECIES"] <- "FINAL_ID"
   }
   #============================================================================
-  if("STATION" %in% names(data.df)){
-    names(data.df)[names(data.df) %in% "STATION"] <- "STATION_ID"
-  }
-  #============================================================================
   if("COLL_DATE" %in% names(data.df)){
     names(data.df)[names(data.df) %in% "COLL_DATE"] <- "DATE"
   }
@@ -53,8 +49,8 @@ event_prep <- function(data.df){
   
   data.df$SAMPLE_NUMBER <- ifelse(is.na(data.df$SAMPLE_NUMBER), 1,
                                    as.numeric(data.df$SAMPLE_NUMBER))
-  data.df$STATION_ID <- as.character(data.df$STATION_ID)
-  event.cols <- c("STATION_ID", "LOCATION", "BASIN", "DATE", "SAMPLE_NUMBER")
+  data.df$RIVMILE <- as.character(data.df$RIVMILE)
+  event.cols <- c("RIVMILE", "LOCATION", "BASIN", "DATE", "SAMPLE_NUMBER")
   data.df$EVENT_ID <- apply(data.df[, event.cols], 1, function(x){
     paste0(x, collapse = "_")
   })
@@ -93,13 +89,13 @@ group_rich <- function(NameList, taxa.df){
 #'@export
 #'
 wide <- function (Long, Level) {
-  agg <- aggregate(REPORTING_VALUE ~ EVENT_ID + LOCATION + STATION_ID +
+  agg <- aggregate(REPORTING_VALUE ~ EVENT_ID + LOCATION + RIVMILE +
                      BASIN + DATE + Long[, colnames(Long) == Level],
                    data = Long, FUN = sum, na.rm = TRUE)
-  colnames(agg) <- c("EVENT_ID", "LOCATION", "STATION_ID", "BASIN",
+  colnames(agg) <- c("EVENT_ID", "LOCATION", "RIVMILE", "BASIN",
                      "DATE", Level, "REPORTING_VALUE")
 
-  wide.df <- reshape2::dcast(agg, EVENT_ID + LOCATION + STATION_ID +
+  wide.df <- reshape2::dcast(agg, EVENT_ID + LOCATION + RIVMILE +
                                BASIN + DATE ~ agg[, Level],
                              value.var = "REPORTING_VALUE")
 
