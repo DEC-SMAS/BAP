@@ -18,6 +18,7 @@
 
 # Requires Packages
 #setwd("C:\\Users\\Owner\\Desktop\\NYSDEC.BAP\\nysdec.bap")
+#devtools::use_package("plyr", "imports")
 #devtools::use_package("reshape2", "imports")
 #devtools::use_package( "vegan", "imports")
 #devtools::use_package("zoo", "imports")
