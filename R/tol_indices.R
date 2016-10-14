@@ -18,6 +18,9 @@ tol_index <- function(Long, Index = "TOLERANCE", Level = "SAMPLES_GENUS_SPECIES"
   colnames(tol_am) <- c("EVENT_ID", Level, "REPORTING_VALUE", Index)
   tol_am$MULT <- tol_am$REPORTING_VALUE * tol_am[, Index]
 
+  # Remove taxa with no tolerance value assignments
+  tol_am <- tol_am[!is.na(tol_am$MULT), ]
+
   new <- aggregate(MULT ~ EVENT_ID,
                    FUN = sum, na.rm = TRUE, data = tol_am)
   new2 <- aggregate(REPORTING_VALUE ~ EVENT_ID,
