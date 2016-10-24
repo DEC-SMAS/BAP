@@ -3,12 +3,14 @@
 #==============================================================================
 #'Tolerance Indices (Hilsenhoff, NBI_P, NBI_N)
 #'
-#'@param Long = Taxonomic count data in a long data format.
+#'@param Long = Taxonomic count data in a Long data format.
 #'@param Index = The column with the tolerance values of interest.
 #'@param Level = Taxonomic rank used for calculations.
 #'@return The average tolerance score per taxon for each unique sampling event.
 #'If taxon does not have an assigned tolerance value it is excluded from the analysis.
 #'@export
+
+
 
 tol_index <- function(Long, Index = "TOLERANCE", Level = "SAMPLES_GENUS_SPECIES") {
   tol_am <- aggregate(Long[, Index] ~ EVENT_ID +
@@ -17,9 +19,6 @@ tol_index <- function(Long, Index = "TOLERANCE", Level = "SAMPLES_GENUS_SPECIES"
                       FUN = mean, na.rm = TRUE, data = Long)
   colnames(tol_am) <- c("EVENT_ID", Level, "REPORTING_VALUE", Index)
   tol_am$MULT <- tol_am$REPORTING_VALUE * tol_am[, Index]
-
-  # Remove taxa with no tolerance value assignments
-  tol_am <- tol_am[!is.na(tol_am$MULT), ]
 
   new <- aggregate(MULT ~ EVENT_ID,
                    FUN = sum, na.rm = TRUE, data = tol_am)
@@ -33,3 +32,4 @@ tol_index <- function(Long, Index = "TOLERANCE", Level = "SAMPLES_GENUS_SPECIES"
   return(round(merged$FINAL, digits = 2))
 
 }
+
