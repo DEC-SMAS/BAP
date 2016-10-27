@@ -73,7 +73,7 @@ score_pct_dom3_ponar <- function(metrics.df){
                      ifelse(m.value >= 90, 2.5 - (((m.value - 90) / 10) *2.5),
                             ifelse(m.value >= 75,  5 - (((m.value - 75) / 15) *2.5),
                                    ifelse(m.value >= 60,  7.5 - (((m.value - 60) / 15) *2.5),
-                                          ifelse(m.value >= 45, 10 - (((m.value - 45) / 15) *2.5),
+                                          ifelse(m.value > 45, 10 - (((m.value - 45) / 15) *2.5),
                                                  ifelse(m.value <= 45, 10, 100000))))))
   return(round(final.df, digits = 2))
 }
@@ -94,6 +94,6 @@ score_shannon_ponar<- function(metrics.df){
                             ifelse(m.value > 2.5, (((m.value - 2.5) / 0.5) * 2.5) + 5,
                                    ifelse(m.value > 2, (((m.value - 2) / 0.5) * 2.5) + 2.5,
                                           ifelse(m.value > 1.5, ((m.value - 1.5) / 0.5) * 2.5,
-                                                 ifelse(m.value <= 1, 0, 100000))))))
+                                                 ifelse(m.value <= 1.5, 0, 100000))))))
   return(round(final.df, digits = 2))
 }
