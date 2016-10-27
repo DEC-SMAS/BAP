@@ -90,7 +90,7 @@ score_pct_dom3_ponar <- function(metrics.df){
 score_shannon_ponar<- function(metrics.df){
   m.value <- metrics.df$SHANNON
   final.df <- ifelse(m.value > 4, 10,
-                     ifelse(m.value > 3, (((m.value - 3) / 0.5) * 2.5) + 7.5,
+                     ifelse(m.value > 3, ((m.value - 3) * 2.5) + 7.5,
                             ifelse(m.value > 2.5, (((m.value - 2.5) / 0.5) * 2.5) + 5,
                                    ifelse(m.value > 2, (((m.value - 2) / 0.5) * 2.5) + 2.5,
                                           ifelse(m.value > 1.5, ((m.value - 1.5) / 0.5) * 2.5,
