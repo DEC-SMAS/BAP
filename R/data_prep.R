@@ -10,7 +10,7 @@ taxa_prep2 <- function(taxa.df){
   #taxa.df$RIVMILE <- as.numeric(taxa.df$RIVMILE)
   taxa.df$EVENT_ID <- with(taxa.df, paste0(RIVMILE, LOCATION, BASIN,
                                            DATE, SAMPLE_NUMBER, sep = "_"))
-  #taxa.df$FINAL_ID 
+  #taxa.df$FINAL_ID
   final.df <- taxa.df[, c(length(taxa.df), 1:length(taxa.df) - 1)]
   taxa.levels <- c("PHYLUM", "CLASS", "ORDER", "FAMILY", "SUBFAMILY",
                    "GENUS_SPECIES", "FINAL_ID")
@@ -18,7 +18,7 @@ taxa_prep2 <- function(taxa.df){
   final.df[, taxa.levels] <- apply(final.df[, taxa.levels], 2, function(x){
     x <- sub("^$", "UNDETERMINED", x)
   })
- 
+
 }
 
 #==============================================================================
@@ -39,14 +39,14 @@ event_prep <- function(data.df){
   }
   #============================================================================
   if("GENSPECIES" %in% names(data.df)){
-    names(data.df)[names(data.df) %in% "GENSPECIES"] <- "FINAL_ID"
+    names(data.df)[names(data.df) %in% "MACRO_GENSPECIES"] <- "FINAL_ID"
   }
   #============================================================================
   if("COLL_DATE" %in% names(data.df)){
     names(data.df)[names(data.df) %in% "COLL_DATE"] <- "DATE"
   }
   #============================================================================
-  
+
   data.df$SAMPLE_NUMBER <- ifelse(is.na(data.df$SAMPLE_NUMBER), 1,
                                    as.numeric(data.df$SAMPLE_NUMBER))
   data.df$RIVMILE <- as.character(data.df$RIVMILE)
@@ -152,7 +152,7 @@ taxa_prep3 <- function(taxa.df){
   taxa.df$GENUS <- ifelse(grepl(" ",  taxa.df$GENUS),
                            gsub( " .*$", "", taxa.df$GENUS_SPECIES),
                            taxa.df$GENUS)
-  
+
   # Remove all genera, groups, undetermineds, complexes, and uncertainties
   taxa.df$SPECIES <- sapply(taxa.df$GENUS_SPECIES, function(x){
     remove <- c("SP\\.", "SPP\\.", "CF\\.", "UNDET\\.", "UNDETERMINED", "/")
@@ -170,11 +170,11 @@ taxa_prep3 <- function(taxa.df){
   taxa.df$SPECIES <- gsub(" ","_", taxa.df$SPECIES)
   # Replace the blanks with "UNDETERMINED"
   taxa.df$SPECIES <- sub("^$", "UNDETERMINED", taxa.df$SPECIES)
-  
-  taxa <- c("PHYLUM", "CLASS", "ORDER", 
+
+  taxa <- c("PHYLUM", "CLASS", "ORDER",
             "FAMILY", "SUBFAMILY",
             "GENUS", "SPECIES")
-  
+
   taxa.df[taxa.df == "" | taxa.df == "UNDETERMINED"]  <- NA
   taxa.df[, taxa] <- data.frame(t(apply(taxa.df[, taxa], 1, zoo::na.locf)))
   taxa.df$FINAL_ID <- taxa.df$SPECIES
