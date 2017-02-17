@@ -10,7 +10,7 @@ taxa_prep2 <- function(taxa.df){
   #taxa.df$RIVMILE <- as.numeric(taxa.df$RIVMILE)
   taxa.df$EVENT_ID <- with(taxa.df, paste0(RIVMILE, LOCATION, BASIN,
                                            DATE, SAMPLE_NUMBER, sep = "_"))
-  #taxa.df$FINAL_ID
+  taxa.df$FINAL_ID <- trimws(taxa.df$FINAL_ID)
   final.df <- taxa.df[, c(length(taxa.df), 1:length(taxa.df) - 1)]
   taxa.levels <- c("PHYLUM", "CLASS", "ORDER", "FAMILY", "SUBFAMILY",
                    "GENUS_SPECIES", "FINAL_ID")
@@ -121,7 +121,7 @@ wide <- function (Long, Level) {
 
 taxa_prep <- function(taxa.df){
 
-  taxa.df$FINAL_ID <- toupper(gsub(" ","_", taxa.df$FINAL_ID))
+  taxa.df$FINAL_ID <- toupper(gsub(" ","_", trimws(taxa.df$FINAL_ID)))
 
   return(taxa.df)
 }
