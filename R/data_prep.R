@@ -16,6 +16,7 @@ taxa_prep2 <- function(taxa.df){
                    "GENUS_SPECIES", "FINAL_ID")
   final.df[, taxa.levels] <- apply(final.df[, taxa.levels], 2, as.character)
   final.df[, taxa.levels] <- apply(final.df[, taxa.levels], 2, function(x){
+    x <- trimws(x)
     x <- sub("^$", "UNDETERMINED", x)
   })
 
@@ -137,6 +138,7 @@ taxa_prep3 <- function(taxa.df){
                    "GENUS_SPECIES", "SAMPLE_GENUS_SPECIES")
   taxa.df[, taxa.levels] <- apply(taxa.df[, taxa.levels], 2, as.character)
   taxa.df[, taxa.levels] <- apply(taxa.df[, taxa.levels], 2, function(x){
+    x <- trimws(x)
     x <- sub("^$", "UNDETERMINED", x)
   })
   taxa.df$GENUS <- taxa.df$GENUS_SPECIES
