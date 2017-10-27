@@ -39,8 +39,8 @@ event_prep <- function(data.df){
     names(data.df)[names(data.df) %in% "INDIV"] <- "REPORTING_VALUE"
   }
   #============================================================================
-  if("GENSPECIES" %in% names(data.df)){
-    names(data.df)[names(data.df) %in% "GENSPECIES"] <- "FINAL_ID"
+  if("MACRO_GENSPECIES" %in% names(data.df)){
+    names(data.df)[names(data.df) %in% "MACRO_GENSPECIES"] <- "FINAL_ID"
   }
   #============================================================================
   if("COLL_DATE" %in% names(data.df)){
