@@ -1,0 +1,32 @@
+---
+title: "ISD Calculation"
+output: html_document
+---
+
+Load the __BAP__ package into the global environment with `library()`.
+```{r}
+suppressPackageStartupMessages(
+  library("BAP")
+)
+```
+
+The ISD table is contained within the __BAP__ package. Use `data()` to load the ISD table (`isd.df`) into the global environment.
+```{r}
+data("isd.df")
+```
+
+Import your data. In this case, I will use an example data set provided by E. Mosher that is also contained within the __BAP__ package.
+```{r}
+data("bap.df")
+```
+
+Use `data_prep()` to put your data in the proper format.
+```{r}
+bap.df <- data_prep(bap.df)
+```
+
+Use `calc.isd()` to produce a table calculated ISD values for each ISD model. __WARNING:__ I do not think this has been thoroughly vetted. Please spend sometime checking the output. A good place to start is to compare to output calculated previously in excel or some other platform
+```{r}
+final.df <- calc.isd(bap.df, isd.df)
+```
+
