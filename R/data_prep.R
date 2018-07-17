@@ -193,8 +193,7 @@ taxa_prep3 <- function(taxa.df){
 data_prep <- function(taxa.df){
   prep.df <- event_prep(taxa.df)
   taxa.df <- taxa_prep(prep.df)
-  data("master")
-  final.df <- merge(taxa.df, master, by = "FINAL_ID", all.x = T)
+  final.df <- merge(taxa.df, BAP::master, by = "FINAL_ID", all.x = T)
   final.df <- final.df[order(final.df$EVENT_ID), ]
   return(final.df)
 }
