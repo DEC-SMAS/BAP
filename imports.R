@@ -1,0 +1,28 @@
+library(usethis)
+use_package("plyr")
+use_package("reshape2")
+use_package("vegan")
+use_package("zoo")
+# use_package("rlang", min_version = "0.4.4")
+# use_package("magrittr", min_version = "1.5")
+# use_pipe(export = TRUE)
+use_package("knitr", type = "suggests")
+use_package("webshot", type = "suggests")
+use_build_ignore("csv")
+use_build_ignore("imports.R")
+options(usethis.full_name = "Zachary M. Smith")
+use_gpl3_license()
+use_readme_rmd()
+use_cran_badge()
+use_lifecycle_badge("Experimental")
+# use_tidy_release_test_e
+
+# edit_r_profile()
+
+
+# use_tidy_ci()
+use_tidy_description()
+# use_tidy_eval()
+use_tidy_versions()
+use_tidy_github()
+use_tidy_style()

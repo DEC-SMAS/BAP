@@ -1,2 +1,10 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^csv$
+^imports\.R$
+^LICENSE\.md$
+^README\.Rmd$
+^\.travis\.yml$
+^codecov\.yml$
+^\.covrignore$
+^\.github$
