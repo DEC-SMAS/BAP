@@ -16,14 +16,7 @@ more information please refer to the following fact sheet:
 
 ## Installation
 
-You can install the released version of BAP from
-[CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages("BAP")
-```
-
-And the development version from [GitHub](https://github.com/) with:
+You can install the BAP package from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
@@ -32,7 +25,7 @@ devtools::install_github("DEC-SMAS/BAP")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example to show you how to quickly calculate BAP scores.
 
 ``` r
 library(BAP)
