@@ -9,7 +9,10 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
-The goal of BAP is to …
+The goal of BAP is to calculate New York State Department of
+Environmental Conservation’s Biological Assessment Profiles (BAPs). For
+more information please refer to the following fact sheet:
+<https://www.dec.ny.gov/docs/water_pdf/bapnarrative18.pdf>
 
 ## Installation
 

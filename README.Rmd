@@ -16,10 +16,7 @@ knitr::opts_chunk$set(
 # BAP
 
 <!-- badges: start -->
-[![CRAN status](https://www.r-pkg.org/badges/version/BAP)](https://CRAN.R-project.org/package=BAP)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![Travis build status](https://travis-ci.org/DEC-SMAS/BAP.svg?branch=master)](https://travis-ci.org/DEC-SMAS/BAP)
-[![Codecov test coverage](https://codecov.io/gh/DEC-SMAS/BAP/branch/master/graph/badge.svg)](https://codecov.io/gh/DEC-SMAS/BAP?branch=master)
 <!-- badges: end -->
 
 The goal of BAP is to ...
@@ -47,18 +44,30 @@ library(BAP)
 ## basic example code
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
-
-```{r cars}
-summary(cars)
+Import your dataset.
+```{r}
+taxa.df <- read.csv(file.path(here::here(),
+                              "data",
+                              "Mosher_Request_1_6_17.csv"),
+                    stringsAsFactors = FALSE)
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.
-
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
+Prepare your dataset for processing.
+```{r}
+long.df <- data_prep(taxa.df)
 ```
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub!
+Calculate the BAP of interest.
+```{r}
+bap_multi.df <- bap_mp_nav_waters(Long = long.df)
+```
+
+```{r}
+knitr::kable(bap_multi.df)
+```
+
+Export the results as a CSV.
+```{r, eval=FALSE}
+write.csv(bap_multi.df, 
+          file.path(paste0(Sys.Date(), "_bap_multiplate", ".csv")))
+```
