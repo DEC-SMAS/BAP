@@ -16,7 +16,10 @@ more information please refer to the following fact sheet:
 
 ## Installation
 
-You can install the BAP package from [GitHub](https://github.com/) with:
+You can install the BAP package from [GitHub](https://github.com/) with
+the following code. You may need to install Rtools to build the package.
+**Rtools is not an R package. You must download Rtools from the
+following source:** <https://cran.r-project.org/bin/windows/Rtools/>.
 
 ``` r
 # install.packages("devtools")

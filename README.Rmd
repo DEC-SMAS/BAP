@@ -23,7 +23,7 @@ The goal of BAP is to calculate New York State Department of Environmental Conse
 
 ## Installation
 
-You can install the BAP package from [GitHub](https://github.com/) with:
+You can install the BAP package from [GitHub](https://github.com/) with the following code. You may need to install Rtools to build the package. __Rtools is not an R package. You must download Rtools from the following source:__ https://cran.r-project.org/bin/windows/Rtools/.
 
 ``` r
 # install.packages("devtools")
