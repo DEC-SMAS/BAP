@@ -17,4 +17,3 @@ ponar samples.
 \description{
 Score Percent DOM-3 (Ponar)
 }
-

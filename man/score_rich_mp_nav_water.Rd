@@ -17,4 +17,3 @@ multiple-plate samples collected in navigable waters.
 \description{
 Score Richness (Multiple-Plate Navigable Waters)
 }
-

@@ -17,4 +17,3 @@ The similarity of the observed community to a model community.
 \description{
 Ponar Percent Model Affinity (PMA)
 }
-

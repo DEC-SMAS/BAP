@@ -20,4 +20,3 @@ Calculate the percentage of a particular taxon.
 \description{
 Percentage of a Taxon
 }
-

@@ -18,4 +18,3 @@ minus the genus Epeorus.
 \description{
 Percent Ephemeroptera Richness minus Epeorus
 }
-

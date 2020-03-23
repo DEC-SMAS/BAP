@@ -18,4 +18,3 @@ Calculates all of the metrics in the 2014 NYSDEC SOP.
 \description{
 Calculate All Metrics
 }
-

@@ -17,4 +17,3 @@ riffle samples.
 \description{
 Score EPT Richness (Riffle)
 }
-

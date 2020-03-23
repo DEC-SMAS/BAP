@@ -18,4 +18,3 @@ taxa excluding tolerant taxa.
 \description{
 EPT Richness Excluding Tolerant Taxa
 }
-

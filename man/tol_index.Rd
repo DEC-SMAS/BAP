@@ -7,7 +7,7 @@
 tol_index(Long, Index = "TOLERANCE", Level = "SAMPLES_GENUS_SPECIES")
 }
 \arguments{
-\item{Long}{= Taxonomic count data in a long data format.}
+\item{Long}{= Taxonomic count data in a Long data format.}
 
 \item{Index}{= The column with the tolerance values of interest.}
 
@@ -20,4 +20,3 @@ If taxon does not have an assigned tolerance value it is excluded from the analy
 \description{
 Tolerance Indices (Hilsenhoff, NBI_P, NBI_N)
 }
-

@@ -17,4 +17,3 @@ with the ranges assigned to ponar samples.
 \description{
 Score Shannon-Wiener Diversity (Ponar)
 }
-

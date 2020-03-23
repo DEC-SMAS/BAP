@@ -18,4 +18,3 @@ The number of Ephemeroptera taxa.
 \description{
 Ephemeroptera Richness
 }
-

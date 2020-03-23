@@ -17,4 +17,3 @@ multiple-plate samples collected in navigable waters.
 \description{
 Score Shannon-Wiener Diversity (Multiple-Plate Navigable Waters)
 }
-

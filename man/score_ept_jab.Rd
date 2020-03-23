@@ -17,4 +17,3 @@ jab samples.
 \description{
 Score EPT Richness (Jab)
 }
-

@@ -19,4 +19,3 @@ Taxa counts in wide data format.
 Wide Data Frame
 Transform taxa count data from long to wide format
 }
-

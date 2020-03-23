@@ -17,4 +17,3 @@ ponar samples.
 \description{
 Score PMA (Ponar)
 }
-

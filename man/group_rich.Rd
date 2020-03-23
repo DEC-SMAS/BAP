@@ -19,4 +19,3 @@ each sampling event. NameList from the wide data frame of taxa
 \description{
 Vector of taxa richness for a specific list of taxa
 }
-

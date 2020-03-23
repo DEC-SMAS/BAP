@@ -18,4 +18,3 @@ Taxa richness excluding Chironomidae or Oligochaeta taxa.
 \description{
 Non-Chironomidae and Oligochaeta Taxa Richness
 }
-

@@ -18,4 +18,3 @@ to each of the model communities.
 \description{
 Calculate All of the ISD Models
 }
-

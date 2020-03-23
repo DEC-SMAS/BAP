@@ -15,4 +15,3 @@ Calculate and score the metrics in the BAP created for jabs.
 \description{
 BAP Jab
 }
-

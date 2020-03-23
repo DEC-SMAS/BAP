@@ -15,4 +15,3 @@ The percentage of Acid Tolerant Individuals (ATI).
 \description{
 Acid Tolerance Index (ATI)
 }
-
