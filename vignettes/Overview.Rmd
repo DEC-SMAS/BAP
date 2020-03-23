@@ -1,0 +1,67 @@
+---
+title: "Overview"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Overview}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+The goal of BAP is to calculate New York State Department of Environmental Conservation's Biological Assessment Profiles (BAPs). For more information please refer to the following fact sheet: https://www.dec.ny.gov/docs/water_pdf/bapnarrative18.pdf
+
+## Installation
+
+You can install the BAP package from [GitHub](https://github.com/) with the following code. You may need to install Rtools to build the package. __Rtools is not an R package. You must download Rtools from the following source:__ https://cran.r-project.org/bin/windows/Rtools/.
+
+``` r
+# install.packages("devtools")
+devtools::install_github("DEC-SMAS/BAP")
+```
+## Example
+
+This is a basic example to show you how to quickly calculate BAP scores.
+
+```{r example}
+library(BAP)
+```
+
+Import your dataset.
+```{r}
+taxa.df <- read.csv(file.path(here::here(),
+                              "data",
+                              "rif.csv"),
+                              # "Mosher_Request_1_6_17.csv"),
+                    stringsAsFactors = FALSE)
+
+taxa.df$LOCATION <- ifelse(taxa.df$LOCATION %in% "MUDG_T71", "MUDG_T72", taxa.df$LOCATION)
+"	0.3_MUDG_T71_ 4_7/18/2019_1"
+taxa.df$EVENT_ID <- ifelse(taxa.df$EVENT_ID %in% "0.3_MUDG_T71_ 4_7/18/2019_1", "0.3_MUDG_T72_ 4_7/18/2019_1", taxa.df$EVENT_ID)
+```
+
+Prepare your dataset for processing.
+```{r}
+long.df <- data_prep(taxa.df)
+long.df <- taxa.df
+```
+
+Calculate the BAP of interest.
+```{r}
+bap_multi.df <- bap_mp_nav_waters(Long = long.df)
+bap_riffle(long.df)
+```
+
+```{r}
+knitr::kable(bap_multi.df)
+```
+
+Export the results as a CSV.
+```{r, eval=FALSE}
+write.csv(bap_multi.df, 
+          file.path(paste0(Sys.Date(), "_bap_multiplate", ".csv")))
+```
