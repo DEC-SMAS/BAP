@@ -10,13 +10,19 @@
 #'If taxon does not have an assigned tolerance value it is excluded from the analysis.
 #'@export
 
-
+# Long <- long.df
+# Index <- "NBI_P_TOLERANCE"
+# Level <- "FINAL_ID"
 
 tol_index <- function(Long, Index = "TOLERANCE", Level = "SAMPLES_GENUS_SPECIES") {
+
   tol_am <- aggregate(Long[, Index] ~ EVENT_ID +
                         Long[, colnames(Long) == Level] +
                         REPORTING_VALUE,
-                      FUN = mean, na.rm = TRUE, data = Long)
+                      FUN = mean,
+                      # na.action = "na.pass",
+                      na.rm = TRUE,
+                      data = Long)
   colnames(tol_am) <- c("EVENT_ID", Level, "REPORTING_VALUE", Index)
   tol_am$MULT <- tol_am$REPORTING_VALUE * tol_am[, Index]
 
@@ -29,7 +35,13 @@ tol_index <- function(Long, Index = "TOLERANCE", Level = "SAMPLES_GENUS_SPECIES"
 
   merged$FINAL <- merged$MULT / merged$REPORTING_VALUE
 
-  return(round(merged$FINAL, digits = 2))
+  final.df <- merge(unique(Long["EVENT_ID"]), merged,
+                    by = "EVENT_ID",
+                    all.x = TRUE)
+
+  return(round(final.df$FINAL, digits = 2))
 
 }
+
+
 
